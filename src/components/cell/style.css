@@ -1,0 +1,16 @@
+span {
+  display: none;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+}
+
+.cell--alive {
+  background-color: black;
+}
+
+.cell--dead {
+  background-color: red;
+}
