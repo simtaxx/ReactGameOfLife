@@ -10,7 +10,7 @@ const Grid: React.FunctionComponent<Props> = () => {
   const rows: number[] = [1, 1, 0, 3, 2]
   const [matrix, setMatrix] = useState(() => makeMatrix(cols, rows))
   const gridRef = useRef<HTMLTableSectionElement>(null)
-  const recreateMatrix = () => {
+  const recreateMatrix = (): void => {
     if (gridRef.current) {
       const gridRows = gridRef.current.childNodes
       const newRows: number[] = []
