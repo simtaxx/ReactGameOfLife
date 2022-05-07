@@ -24,8 +24,47 @@ export const makeMatrix = (cols: number[], rows: number[]): number[][] => {
   return matrix
 }
 
-export const countNeighbor = (row, col) => {
+export const playGameOfLife = (matrix: number[][]) => {
+  const newMatrix: number[][] = []
+  matrix.forEach((row, rowIdx) => {
+    const newRow: number[] = []
+    row.forEach((cell, cellIdx) => {
+      let newCell: number = cell
+      const countOfNeighbor = neighborCount(matrix, rowIdx, cellIdx)
+      if (!cell) {
+        if (countOfNeighbor === 3) newCell = 1
+      } else {
+        if (countOfNeighbor < 2 || countOfNeighbor > 3) newCell = 0
+      }
+      newRow.push(newCell)
+    })
+    newMatrix.push(newRow)
+  })
+  return newMatrix
+}
+
+export const neighborCount = (matrix: number[][], rowIdx: number, cellIdx: number): number => {
+  const previousRow = matrix[rowIdx - 1]
+  const currentRow = matrix[rowIdx]
+  const nextRow = matrix[rowIdx + 1]
   
+  const leftCellIdx = cellIdx - 1
+  const rightCellIdx = cellIdx + 1
+
+  return [
+    ...previousRow ? [
+      previousRow[leftCellIdx],
+      previousRow[cellIdx],
+      previousRow[rightCellIdx]
+    ] : [],
+    currentRow[leftCellIdx],
+    currentRow[rightCellIdx],
+    ...nextRow ? [
+      nextRow[leftCellIdx],
+      nextRow[cellIdx],
+      nextRow[rightCellIdx]
+    ] : []
+  ].filter(item => item === 1).length
 }
 
 /* console.table(makeMatrix(cols, rows)) */
