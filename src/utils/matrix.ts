@@ -24,4 +24,8 @@ export const makeMatrix = (cols: number[], rows: number[]): number[][] => {
   return matrix
 }
 
+export const countNeighbor = (row, col) => {
+  
+}
+
 /* console.table(makeMatrix(cols, rows)) */
