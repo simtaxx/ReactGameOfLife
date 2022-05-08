@@ -10,6 +10,10 @@ export const makeMatrixRow = (row: number, cols: number[], width: number): numbe
 }
 
 export const makeMatrix = (cols: number[], rows: number[]): number[][] => {
+  if (!cols.length || !rows.length) {
+    cols = [15]
+    rows = [0]
+  }
   let width: number = Math.max(...cols) + 1
   const matrix: number[][] = []
   if (width > rows.length) {

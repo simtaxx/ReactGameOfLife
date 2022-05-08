@@ -1,3 +1,8 @@
+html {
+  background-color: rgb(64, 21, 158);
+  color: white;
+}
+
 span {
   display: none;
 }
@@ -8,9 +13,9 @@ span {
 }
 
 .cell--alive {
-  background-color: black;
+  background-color: rgb(104, 21, 105);
 }
 
 .cell--dead {
-  background-color: red;
+  background-color: rgb(222, 98, 98);
 }

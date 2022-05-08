@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Cell from '../cell';
 import { makeMatrix, playGameOfLife } from '../../utils/matrix'
 
@@ -6,10 +6,10 @@ import { makeMatrix, playGameOfLife } from '../../utils/matrix'
 export interface Props {}
 
 const Grid: React.FunctionComponent<Props> = () => {
-  const cols: number[] = [1, 0, 1, 6, 8, 3, 9]
-  const rows: number[] = [1, 1, 0, 3, 2]
+  const cols: number[] = [15]
+  const rows: number[] = [0]
   const [matrix, setMatrix] = useState(() => makeMatrix(cols, rows))
-  const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const [lapCount, setLapCount] = useState<number>(0)
   const gridRef = useRef<HTMLTableSectionElement>(null)
   const recreateMatrix = (): void => {
     if (gridRef.current) {
@@ -26,39 +26,19 @@ const Grid: React.FunctionComponent<Props> = () => {
         })
         newRows.push(alivePerRowCounter)
       })
-      setMatrix([...makeMatrix(newCols, newRows)])
-      console.log(matrix)
-      if (!isPlaying) {
-        setIsPlaying(true)
-      }
+      playNextStep(makeMatrix(newCols, newRows))
     }
   }
 
-  const play = () => {
-    setTimeout(() => {
-      setMatrix([...playGameOfLife(matrix)])
-      console.log(matrix)
-    }, 2000);
+  const playNextStep = (newMatrix: number[][]) => {
+    setLapCount(lap => lap + 1)
+    setMatrix([...playGameOfLife(newMatrix)])
   }
-
-  // Used to refresh the matrix
-  /* useEffect(() => {
-    if (isPlaying) {
-      play()
-    }
-    console.log(matrix)
-  }, [matrix]);
- */
-  // Used to refresh the isPlaying state
-  useEffect(() => {
-    console.log("mis a jour playing")
-    console.log(isPlaying)
-  }, [isPlaying]);
 
   return (
     <div>
-      <button onClick={recreateMatrix}>LANCE LE JEU</button>
-      <button onClick={() => setIsPlaying(false)}>STOP</button>
+      <button onClick={recreateMatrix}>Avancer d'un tour</button>
+      <p>{`${lapCount} tour(s) passé(s)`}</p>
       <table>
         <tbody ref={gridRef}>
           {matrix.map((row, idxRow) => {
@@ -66,7 +46,7 @@ const Grid: React.FunctionComponent<Props> = () => {
               <tr key={idxRow}>
                 {row.map((col, idxCol) => {
                   return (
-                    <Cell key={idxCol} value={col} idx={idxCol} rowKey={idxRow} recreateMatrix={recreateMatrix}></Cell>
+                    <Cell key={idxCol} value={col}></Cell>
                   )
                 })}
               </tr>
